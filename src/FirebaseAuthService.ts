@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import firebase from "./FirebaseConfig";
 
 const auth = firebase.auth();

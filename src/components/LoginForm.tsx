@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import FirebaseAuthService from "../FirebaseAuthService";
 import firebase from "../FirebaseConfig";
+import { ensureError } from "../utils";
 
 type Props = {
   existingUser: firebase.User | null;
@@ -12,19 +13,41 @@ const LoginForm: React.FC<Props> = ({ existingUser }) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit");
+
     try {
-      await FirebaseAuthService.registerUser(username, password);
-      console.log("rejestracja");
+      await FirebaseAuthService.loginUser(username, password);
       setUsername("");
       setPassword("");
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      const error = ensureError(err);
+      alert(error.message);
+    }
+  };
+
+  const handleSendPasswordResetEmail = async () => {
+    if (!username) {
+      alert("Missing username!");
+    }
+
+    try {
+      await FirebaseAuthService.sendPasswordResetEmail(username);
+    } catch (err) {
+      const error = ensureError(err);
+      alert(error.message);
     }
   };
 
   const handleLogout = () => {
     FirebaseAuthService.logoutUser();
+  };
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      await FirebaseAuthService.loginWithGoogle();
+    } catch (err) {
+      const error = ensureError(err);
+      alert(error.message);
+    }
   };
 
   return (
@@ -63,7 +86,21 @@ const LoginForm: React.FC<Props> = ({ existingUser }) => {
             />
           </label>
           <div className="button-box">
-            <button className="primary-button">Submit</button>
+            <button className="primary-button">Login</button>
+            <button
+              type="button"
+              onClick={handleSendPasswordResetEmail}
+              className="primary-button"
+            >
+              Reset password
+            </button>
+            <button
+              type="button"
+              onClick={handleLoginWithGoogle}
+              className="primary-button"
+            >
+              Login with Google
+            </button>
           </div>
         </form>
       )}

@@ -9,7 +9,6 @@ function App() {
 
   FirebaseAuthService.subscribeToAuthChanges(setUser);
 
-  console.log(user);
   return (
     <div className="App">
       <div className="title-row">
