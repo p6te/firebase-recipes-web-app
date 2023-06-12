@@ -1,8 +1,13 @@
 * {
   font-family: "Roboto", sans-serif;
 }
+
+h2 {
+  font-size: 2rem;
+}
+
 html {
-  background: #f3c14f;
+  background: #e79426;
 }
 .App {
   display: flex;
