@@ -3,16 +3,18 @@ const firestore = firebase.firestore();
 
 const createDocument = (
   collection: string,
-  document?: firebase.firestore.DocumentData
+  document: firebase.firestore.DocumentData
 ) => {
-  if (document) {
-    return firestore.collection(collection).add(document);
-  }
-  return firestore.collection(collection);
+  return firestore.collection(collection).add(document);
+};
+
+const readDocuments = (collection: string) => {
+  return firestore.collection(collection).get();
 };
 
 const FirebaseFirestoreService = {
   createDocument,
+  readDocuments,
 };
 
 export default FirebaseFirestoreService;

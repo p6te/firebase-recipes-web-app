@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent, MouseEvent, FormEvent } from "react";
-import { Recipe } from "../types/recipes";
+import { NewRecipe, RecipeCategory } from "../types/recipes";
 import firebase from "../FirebaseConfig";
 
 type Props = {
@@ -19,16 +19,15 @@ const AddEditRecipeForm: React.FC<Props> = ({ handleAddRecipe }) => {
   const [ingredientName, setIngredientName] = useState("");
 
   const handleRecipeFormSubmit = (e: FormEvent<Element>) => {
+    e.preventDefault();
     if (ingredients.length === 0) {
       alert("Ingredients cannot be empty, plase add at least 1 ingredient");
       return;
     }
 
-    e.preventDefault();
-
     const isPublished = new Date(publishDate) <= new Date() ? true : false;
 
-    const newRecipe: Recipe = {
+    const newRecipe: NewRecipe = {
       name,
       category,
       directions,
@@ -62,7 +61,6 @@ const AddEditRecipeForm: React.FC<Props> = ({ handleAddRecipe }) => {
     addIngredient();
   };
 
-  console.log(ingredients);
   return (
     <form
       className="add-edit-recipe-form-container"
@@ -90,11 +88,15 @@ const AddEditRecipeForm: React.FC<Props> = ({ handleAddRecipe }) => {
               required
             >
               <option value=""></option>
-              <option value="breadsAndSandwiches">Breads and Sandwiches</option>
-              <option value="Breakfast">Breakfast</option>
-              <option value="desserts">Desserts</option>
-              <option value="fishAndSeefood">Fish & Seafood</option>
-              <option value="vegetables">Vegetables</option>
+              <option value="breadsAndSandwiches">
+                {RecipeCategory.breadsAndSandwiches}
+              </option>
+              <option value="breakfast">{RecipeCategory.breakfast}</option>
+              <option value="desserts">{RecipeCategory.desserts}</option>
+              <option value="fishAndSeefood">
+                {RecipeCategory.fishAndSeefood}
+              </option>
+              <option value="vegetables">{RecipeCategory.vegetables}</option>
             </select>
           </label>
           <label className="recipe-label input-label">

@@ -5,4 +5,15 @@ export type Recipe = {
   publishDate: Date;
   isPublished: boolean;
   ingredients: string[];
+  id: string;
 };
+
+export type NewRecipe = Omit<Recipe, "id">;
+
+export enum RecipeCategory {
+  breadsAndSandwiches = "Breads and Sandwiches",
+  breakfast = "Breakfast",
+  desserts = "Desserts",
+  fishAndSeefood = "Fish & Seafood",
+  vegetables = "Vegetables",
+}
