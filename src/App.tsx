@@ -6,8 +6,6 @@ import firebase from "./FirebaseConfig";
 import AddEditRecipeForm from "./components/AddEditRecipeForm";
 import FirebaseFirestoreService from "./FirebaseFirestoreService";
 import { ensureError } from "./utils";
-import { RecipeCategory } from "./types/recipes";
-import { mapCategoryLabel } from "./utils/mapCategoryLabel";
 
 function App() {
   const [user, setUser] = useState<firebase.User | null>(null);
