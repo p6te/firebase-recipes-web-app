@@ -6,6 +6,8 @@ import firebase from "./FirebaseConfig";
 import AddEditRecipeForm from "./components/AddEditRecipeForm";
 import FirebaseFirestoreService from "./FirebaseFirestoreService";
 import { ensureError } from "./utils";
+import { mapCategoryLabel } from "./utils/mapCategoryLabel";
+import { WhereFilterOp } from "@firebase/firestore-types";
 
 function App() {
   const [user, setUser] = useState<firebase.User | null>(null);
@@ -13,10 +15,23 @@ function App() {
   FirebaseAuthService.subscribeToAuthChanges(setUser);
 
   const fetchRecipes = async () => {
+    const queries = [];
+
+    if (!user) {
+      queries.push({
+        field: "isPublished",
+        condition: "==" as WhereFilterOp,
+        value: true,
+      });
+    }
+
     let fetchedRecipes = [];
 
     try {
-      const response = await FirebaseFirestoreService.readDocuments("recipes");
+      const response = await FirebaseFirestoreService.readDocuments({
+        collection: "recipes",
+        queries: queries,
+      });
 
       const newRecipes = response.docs.map((recipeDoc) => {
         const id = recipeDoc.id;
@@ -93,9 +108,12 @@ function App() {
                 {recipes.map((recipe) => {
                   return (
                     <div className="recipe-card" key={recipe.id}>
+                      {recipe.isPublished === false ? (
+                        <div className="unpublished">UNPUBLISHED</div>
+                      ) : null}
                       <div className="recipe-name">{recipe.name}</div>
                       <div className="recipe-field">
-                        Category: {recipe.category}
+                        Category: {mapCategoryLabel(recipe.category)}
                       </div>
                       <div className="recipe-field">
                         Publish Date: {formatDate(recipe.publishDate)}

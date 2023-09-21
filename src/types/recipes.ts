@@ -11,7 +11,7 @@ export type Recipe = {
 export type NewRecipe = Omit<Recipe, "id">;
 
 export enum RecipeCategory {
-  breadsAndSandwiches = "Breads and Sandwiches",
+  breadsAndSandwiches = "Breads & Sandwiches",
   breakfast = "Breakfast",
   desserts = "Desserts",
   fishAndSeefood = "Fish & Seafood",

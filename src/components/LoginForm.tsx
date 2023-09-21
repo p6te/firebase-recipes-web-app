@@ -27,6 +27,7 @@ const LoginForm: React.FC<Props> = ({ existingUser }) => {
   const handleSendPasswordResetEmail = async () => {
     if (!username) {
       alert("Missing username!");
+      return;
     }
 
     try {
@@ -66,7 +67,7 @@ const LoginForm: React.FC<Props> = ({ existingUser }) => {
       ) : (
         <form onSubmit={handleSubmit} className="login-form">
           <label className="input-label login-label">
-            Username (email)
+            Username (email):
             <input
               type="email"
               required
@@ -76,7 +77,7 @@ const LoginForm: React.FC<Props> = ({ existingUser }) => {
             />
           </label>
           <label className="input-label login-label">
-            Password
+            Password:
             <input
               type="password"
               required
